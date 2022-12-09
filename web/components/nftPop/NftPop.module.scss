@@ -1,0 +1,28 @@
+.popup{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 15px;
+    width: 50%;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    .top{
+        display: flex;
+        .topleft{
+            padding: 2rem;
+            .image{
+                width:200px;
+                height: 200px;
+            }
+        }
+        .topright{
+            .cross{
+                float: right;
+            }
+        }
+    }
+}

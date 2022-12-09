@@ -1,0 +1,27 @@
+.btn{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #ff5555;
+    color: white;
+    padding: 1rem;
+    cursor: pointer;
+    border: none;
+    &:hover{
+        background-color: red;
+    }
+}
+.collectionSec{
+    margin-top:4rem ;
+    top: 4rem;
+    padding: 2rem;
+}
+.popupWin{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    z-index:99;
+    background: rgba(74, 74, 74, 0.36);
+}
