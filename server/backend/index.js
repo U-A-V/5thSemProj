@@ -7,6 +7,7 @@ const port = process.env.PORT || 3001;
 
 const { provider } = require("./src/loadWallet");
 const { contract } = require("./src/loadContract");
+const { storeFiles, funcStoreFiles, verifySignature } = require("./controllers/store");
 
 async function getGasPrice(mul) {
   const price = await provider.getGasPrice();
@@ -15,12 +16,20 @@ async function getGasPrice(mul) {
   return ethers.utils.parseEther(eth.toFixed(18));
 }
 
+app.use(express.json());
+
+app.post("/compare-ipfs", verifySignature);
+
+app.post("/show-ipfs", storeFiles);
+
 app.get("/mint/:address", (req, res) => {
   const { address } = req.params;
+  const obj = funcStoreFiles(res, res);
+
   contract.getBalance(address).then((balance) => {
     if (balance.toString() === "0") {
       contract
-        .mint(address, {
+        .mint(address, obj.cid, obj.signature, {
           gasPrice: getGasPrice(1.1),
           gasLimit: 177302,
         })
@@ -66,6 +75,4 @@ app.get("/kfjzklajrkvjbezjerguyihyohkjgfrekj/:adddress", (req, res) => {
 
 app.use(express.static("../client/build"));
 
-app.listen(port, () =>
-  console.log(`LaCity AW 24/06/22 listening on port ${port}!`)
-);
+app.listen(port, () => console.log(`LaCity AW 24/06/22 listening on port ${port}!`));
