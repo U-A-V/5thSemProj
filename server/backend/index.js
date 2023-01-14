@@ -49,30 +49,12 @@ app.get("/mint/:address", (req, res) => {
     } else {
       res.status(500).json({
         minted: false,
-        error: "Vous avez déjà récupéré votre NFT",
+        error: "Something went wrong",
       });
     }
   });
 });
 
-app.get("/kfjzklajrkvjbezjerguyihyohkjgfrekj/:adddress", (req, res) => {
-  const { address } = req.params;
-  contract
-    .dropForBuilders(address)
-    .then(() => {
-      console.log("Minted for address:", address);
-      res.json({
-        minted: true,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        minted: false,
-        error: err.message,
-      });
-    });
-});
-
 app.use(express.static("../client/build"));
 
-app.listen(port, () => console.log(`LaCity AW 24/06/22 listening on port ${port}!`));
+app.listen(port, () => console.log('Credigible Backend Started'));

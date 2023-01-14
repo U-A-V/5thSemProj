@@ -55,22 +55,23 @@ const compare = (cid, encryptedData, key) => {
 const storeFiles = async (req, res) => {
   // try {
   const body = req.body;
-  const _id = uuidv4();
+  //const _id = uuidv4();
   console.log(process.env.WEB3STORAGE);
 
-  const buffer = Buffer.from(JSON.stringify({ ...body, _id }));
+  const buffer = Buffer.from(JSON.stringify({ ...body }));
 
   const files = [
-    new File(["contents-of-file-1"], "plain-utf8.txt"),
+    //new File(["contents-of-file-1"], "plain-utf8.txt"),
     new File([buffer], "signature.json"),
   ];
 
   const client = new Web3Storage({ token: process.env.WEB3STORAGE });
   const cid = await client.put(files);
 
-  const signature = encrypt(cid);
+  //const signature = encrypt(cid);
+  const signature = 'wip';
   const fileUrl = `https://${cid}.ipfs.dweb.link/`;
-  res.status(200).json({ status: "sucess", url: fileUrl, cid, signature: signature });
+  res.status(200).json({ status: "success", url: fileUrl, cid, signature: signature });
   // } catch (error) {
   //   res.status(404).json({ status: "failure", message: error });
   // }

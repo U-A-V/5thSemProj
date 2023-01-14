@@ -4,22 +4,35 @@ pragma solidity >=0.4.22 <0.9.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract CredigibleCertificate is ERC721, Ownable {
+interface ICredigibleCertificateFactory {
+    function userCollectionCallback(address user) external;
+}
+
+
+contract CredigibleCertificateCollection is ERC721, Ownable {
     
-    constructor(string memory name_, string memory symbol_) ERC721(name_, symbol_) {
-        //_owner = msg.sender;
-        //Ownable();
-        //ERC721("PU CERTS", "PUC");
-        _transferOwnership(msg.sender);
+    address public factoryAddress;
+
+    constructor(
+        string memory name_,
+        string memory symbol_,
+        address _owner,
+        address _factoryAddress
+    ) ERC721(name_, symbol_) {
+        _transferOwnership(_owner);
+        factoryAddress = _factoryAddress;
     }
 
     uint256 private supply = 0;
 
     struct CredigibleMetadata{
         uint256 id;
-        string IPFS_hash;
+        //string IPFS_hash;
         address publisher;
-        string encrypted_IPFS_hash;
+        string title;
+        string description;
+        uint256 timestamp;
+        //string encrypted_IPFS_hash;
     }
 
     mapping(address => uint256) private balances;
@@ -28,17 +41,30 @@ contract CredigibleCertificate is ERC721, Ownable {
 
 
 
-    function mint(address targetAddress, string calldata _IPFS_hash, string calldata _encrypted_IPFS_hash) onlyOwner public {
+    function mint(
+        address targetAddress,
+        string calldata title,
+        string calldata description,
+        uint256 timestamp
+        //string calldata _IPFS_hash,
+        //string calldata _encrypted_IPFS_hash
+    ) onlyOwner public {
         balances[targetAddress]++;
         _mint(targetAddress, supply+1);
         CredigibleMetadata memory current = CredigibleMetadata({
             id: supply+1,
-            IPFS_hash: _IPFS_hash,
+            //IPFS_hash: _IPFS_hash,
             publisher: msg.sender,
-            encrypted_IPFS_hash: _encrypted_IPFS_hash
+            title: title,
+            description: description,
+            timestamp: timestamp
+            //encrypted_IPFS_hash: _encrypted_IPFS_hash
         });
 
         metadata[supply+1] = current;
+        if(certificates[targetAddress].length == 0){
+            // callback
+        }
         certificates[targetAddress].push(current);
         supply++;
 
