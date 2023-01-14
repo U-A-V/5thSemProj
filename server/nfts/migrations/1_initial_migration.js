@@ -1,5 +1,5 @@
-const CredigibleCertificate = artifacts.require("CredigibleCertificate");
+const CredigibleCertificateFactory = artifacts.require("CredigibleCertificateFactory");
 
 module.exports = function (deployer) {
-  deployer.deploy(CredigibleCertificate, "PU CERTIFICATE", "PUC");
+  deployer.deploy(CredigibleCertificateFactory);
 };

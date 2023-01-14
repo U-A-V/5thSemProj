@@ -11,6 +11,7 @@ interface ICredigibleCertificateFactory {
 
 contract CredigibleCertificateCollection is ERC721, Ownable {
     
+    event CredigibleMint(uint256, address);
     address public factoryAddress;
 
     constructor(
@@ -39,6 +40,10 @@ contract CredigibleCertificateCollection is ERC721, Ownable {
     mapping(uint256 => CredigibleMetadata) public metadata;
     mapping(address => CredigibleMetadata[]) public certificates;
 
+    function getCertificatesOfUser(address user) view public returns (CredigibleMetadata[] memory) {
+        return certificates[user];
+    }
+
 
 
     function mint(
@@ -64,9 +69,11 @@ contract CredigibleCertificateCollection is ERC721, Ownable {
         metadata[supply+1] = current;
         if(certificates[targetAddress].length == 0){
             // callback
+            ICredigibleCertificateFactory(factoryAddress).userCollectionCallback(targetAddress);
         }
         certificates[targetAddress].push(current);
         supply++;
+        emit CredigibleMint(supply, targetAddress);
 
 
     }

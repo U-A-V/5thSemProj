@@ -5,6 +5,9 @@ import {CredigibleCertificateCollection} from "./CredigibleCertificate.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract CredigibleCertificateFactory is Ownable {
+    event Create(address);
+    event UserCollectionCallback(address index , address);
+
     mapping(address => address[]) public userCollections;
     mapping(address => bool) public collectionList;
     constructor(){
@@ -24,6 +27,11 @@ contract CredigibleCertificateFactory is Ownable {
             )
         );
         collectionList[created] = true;
+        emit Create(created);
+    }
+
+    function getUserCollection(address user) public view returns (address[] memory) {
+        return userCollections[user];
     }
 
     function userCollectionCallback(
@@ -31,5 +39,6 @@ contract CredigibleCertificateFactory is Ownable {
     ) external {
         require(collectionList[msg.sender], "Not a collection!");
         userCollections[user].push(msg.sender);
+        emit UserCollectionCallback(user, msg.sender);
     }
 }
