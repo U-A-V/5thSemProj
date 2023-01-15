@@ -20,7 +20,16 @@ const Blockchain = {
   "0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20": {
     collection: [
       {
-        nft: [nft.nft1, nft.nft2],
+        nft: [
+          nft.nft1,
+          nft.nft2,
+          nft.nft1,
+          nft.nft2,
+          nft.nft1,
+          nft.nft2,
+          nft.nft1,
+          nft.nft2,
+        ],
         collectionMedia: require("../public/collection.jpg"),
         name: "Abstract",
         collectionTag: "#7631",

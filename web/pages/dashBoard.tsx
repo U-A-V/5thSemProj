@@ -18,7 +18,7 @@ export default function Dashboard(){
     const [balance,setBalance]=useState<number>()
     const [showPop,setShowPop]=useState<boolean>(false)
     const [collection,setCollection]=useState<collection>(Blockchain["0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20"].collection[0])
-    const [nft,setNft]=useState<Nft>(Blockchain["0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20"].nft[0])
+    // const [nft,setNft]=useState<Nft>(Blockchain["0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20"].nft[0])
     const handleChainChanged=useCallback((_chainId:string|unknown) =>{
         const chain=_chainId as string
         setChainId(chain)
@@ -52,20 +52,20 @@ export default function Dashboard(){
                     <div className={styles.collectionSec}>
 
                     {
-                        Blockchain["0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20"].nft.map((nft:Nft,index)=>{
-                            return <NftCard key={index} nft={nft} setNft={setNft} showpopup={setShowPop}/>
+                        Blockchain["0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20"].collection.map((col:collection,index)=>{
+                            return <CollectionCard key={index} collection={col} showpopup={setShowPop} setCollection={setCollection}/>
                         })
                     }
                     {showPop && <div className={styles.popupWin}>
-
-<NftPop nft={nft} showPopup={setShowPop} /> 
-</div>}
+                        <CollectionPop collection={collection} showPopup={setShowPop} /> 
+                    </div>}
                     </div>
                 </div>}
             {mode=="org" && <div>
             <Link className={styles.btn} href='/createCollectionForm'>Create Collection</Link>
             <div className={styles.collectionSec}>
-                { Blockchain["0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20"].collection.map((col:collection,index)=>{
+                { 
+                Blockchain["0xd02e6c85fe9aaf150181dbf84f4b7ee7a0c83a20"].collection.map((col:collection,index)=>{
                     return <CollectionCard key={index} collection={col} showpopup={setShowPop} setCollection={setCollection}/>
                 }) }
                 {
