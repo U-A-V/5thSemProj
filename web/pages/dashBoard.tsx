@@ -10,6 +10,7 @@ import { collection, Nft } from "../data";
 import NftCard from "../components/nftCard/nftCard";
 import CollectionPop from "../components/collectionPopup/collectioPop";
 import NftPop from "../components/nftPop/nftPop";
+import axios from "axios";
 export default function Dashboard() {
   const router = useRouter();
   const mode = router.query.mode as string;
@@ -27,6 +28,9 @@ export default function Dashboard() {
     const chain = _chainId as string;
     setChainId(chain);
   }, []);
+
+  const [userCollection, setUserCollection] = useState([]);
+
   useEffect(() => {
     const provider = window.ethereum;
     provider
@@ -52,6 +56,27 @@ export default function Dashboard() {
     };
   }, [account, handleChainChanged]);
 
+  const getCollection = async () => {
+    const provider = window.ethereum;
+    const userAddress = (await provider.request({
+      method: "eth_accounts",
+    })) as string[];
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/users-collection`,
+        {
+          targetAddress: userAddress[0],
+        }
+      );
+      console.log(res);
+      setUserCollection(res.data.collections);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getCollection();
+  }, []);
   return (
     <>
       {mode == "inde" && (
@@ -67,6 +92,26 @@ export default function Dashboard() {
                 );
               }
             )}
+
+            {userCollection &&
+              userCollection.map((item, index) => {
+                console.log(item);
+                let localNft = {
+                  //@ts-ignore
+                  item,
+                  media: require("../public/nft1.jpg"),
+                  nftId: `#${Math.floor(1000 + Math.random() * 9000)}`,
+                };
+                return (
+                  <NftCard
+                    key={index}
+                    nft={localNft}
+                    setNft={setNft}
+                    showpopup={setShowPop}
+                    user={true}
+                  />
+                );
+              })}
             {showPop && (
               <div className={styles.popupWin}>
                 <NftPop nft={nft} showPopup={setShowPop} />

@@ -39,11 +39,13 @@ interface NftProp {
   nft: Nft;
   showpopup: Function;
   setNft: Function;
+  user?: boolean;
 }
 
 interface nftPop {
   nft: Nft;
   showPopup: Function;
+  user?: boolean;
 }
 
 interface localStorage {

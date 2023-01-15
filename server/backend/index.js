@@ -38,7 +38,8 @@ app.post("/create-collection", async (req, res) => {
   });
 });
 
-app.get("/collection-info", async (req, res) => {
+app.post("/collection-info", async (req, res) => {
+  console.log(req.body);
   collectionContract = new ethers.Contract(
     req.body.collectionAddress,
     CollectionContractJSON.abi,
@@ -48,9 +49,13 @@ app.get("/collection-info", async (req, res) => {
 });
 
 app.get("/get-all-certs", async (req, res) => {
-  collectionContract = new ethers.Contract(req.body.collectionAddress, CollectionContractJSON.abi, signer)
-  res.status(200).json({certs: await collectionContract.getAllCerts()})
-})
+  collectionContract = new ethers.Contract(
+    req.body.collectionAddress,
+    CollectionContractJSON.abi,
+    signer
+  );
+  res.status(200).json({ certs: await collectionContract.getAllCerts() });
+});
 
 app.post("/mint", async (req, res) => {
   //res.json(req.body)
@@ -81,7 +86,7 @@ app.post("/collection/NFT", async (req, res) => {
     .json({ name: await collectionContract.getCertificatesOfUser(req.body.targetAddress) });
 });
 
-app.get("/users-collection", async (req, res) => {
+app.post("/users-collection", async (req, res) => {
   res
     .status(200)
     .json({ collections: await contract.getUserCollection(req.body.targetAddress) });
