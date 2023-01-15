@@ -33,18 +33,22 @@ contract CredigibleCertificateCollection is ERC721, Ownable {
         string title;
         string description;
         uint256 timestamp;
+        address targetAddress;
         //string encrypted_IPFS_hash;
     }
 
     mapping(address => uint256) private balances;
     mapping(uint256 => CredigibleMetadata) public metadata;
     mapping(address => CredigibleMetadata[]) public certificates;
+    CredigibleMetadata[] certs;
 
     function getCertificatesOfUser(address user) view public returns (CredigibleMetadata[] memory) {
         return certificates[user];
     }
 
-
+    function getAllCerts() view public returns (CredigibleMetadata[] memory) {
+        return certs;
+    }
 
     function mint(
         address targetAddress,
@@ -62,6 +66,7 @@ contract CredigibleCertificateCollection is ERC721, Ownable {
             publisher: msg.sender,
             title: title,
             description: description,
+            targetAddress: targetAddress,
             timestamp: timestamp
             //encrypted_IPFS_hash: _encrypted_IPFS_hash
         });
@@ -72,6 +77,7 @@ contract CredigibleCertificateCollection is ERC721, Ownable {
             ICredigibleCertificateFactory(factoryAddress).userCollectionCallback(targetAddress);
         }
         certificates[targetAddress].push(current);
+        certs.push(current);
         supply++;
         emit CredigibleMint(supply, targetAddress);
 

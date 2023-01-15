@@ -40,6 +40,11 @@ app.get("/collection-info", async (req, res) => {
   res.status(200).json({name: await collectionContract.name()})
 })
 
+app.get("/get-all-certs", async (req, res) => {
+  collectionContract = new ethers.Contract(req.body.collectionAddress, CollectionContractJSON.abi, signer)
+  res.status(200).json({certs: await collectionContract.getAllCerts()})
+})
+
 app.post("/mint", async (req, res) => {
   //res.json(req.body)
   collectionContract = new ethers.Contract(req.body.collectionAddress, CollectionContractJSON.abi, signer)
@@ -48,7 +53,7 @@ app.post("/mint", async (req, res) => {
     req.body.targetAddress,
     req.body.title,
     req.body.description,
-    12
+    Date.now()
   );
   re = await tx.wait(0)
   res.status(200).json({"j":2})
