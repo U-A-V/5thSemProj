@@ -6,7 +6,7 @@ import styles from "./NftCard.module.scss";
 
 export default function NftCard({ nft, showpopup, setNft, user }: NftProp) {
   const handleClick = () => {
-    setNft(nft);
+    setNft({ ...nft, title: userInfo });
     showpopup(true);
   };
 
@@ -19,7 +19,7 @@ export default function NftCard({ nft, showpopup, setNft, user }: NftProp) {
     })) as string[];
 
     try {
-      console.log(user, nft);
+      // console.log(user, nft);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/collection-info`,
         {
@@ -27,7 +27,7 @@ export default function NftCard({ nft, showpopup, setNft, user }: NftProp) {
           collectionAddress: nft.item,
         }
       );
-      console.log(res);
+      // console.log(res);?
       setUserInfo(res.data.name);
     } catch (error) {}
   };
@@ -36,7 +36,7 @@ export default function NftCard({ nft, showpopup, setNft, user }: NftProp) {
     if (user) getCollectionInfo();
   }, []);
 
-  console.log(userInfo);
+  // console.log(userInfo);
   // console.log(nft);
   return (
     <div className={styles.nftContainer} onClick={handleClick}>
