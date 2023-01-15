@@ -27,5 +27,38 @@
     }
     .bottom{
         display: flex;
+        overflow-x: scroll;
     }
 }
+
+  .form {
+    
+          display: flex;
+          flex-direction: column;
+
+
+      input {
+          padding: .5rem;
+          margin: 1rem 0rem;
+      }
+
+      .btncont {
+          display: flex;
+          align-items: center;
+
+          h3 {
+              margin: 0;
+          }
+
+          button {
+              cursor: pointer;
+              padding: .7rem 1rem;
+              margin: .5rem;
+              border: none;
+              border-radius: 12px;
+              background-color: red;
+              color: white;
+          }
+      }
+
+  }

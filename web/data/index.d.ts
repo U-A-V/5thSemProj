@@ -14,6 +14,7 @@ interface collection {
   collectionId: string;
   description: string;
   dist: string[];
+  collectionAddress?: string;
 }
 interface Nft {
   nftId: string;
@@ -43,4 +44,9 @@ interface NftProp {
 interface nftPop {
   nft: Nft;
   showPopup: Function;
+}
+
+interface localStorage {
+  name: string;
+  sumbol: string;
 }
