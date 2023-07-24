@@ -50,3 +50,7 @@ interface localStorage {
   name: string;
   sumbol: string;
 }
+
+interface addFieldprop {
+  indx: number;
+}
